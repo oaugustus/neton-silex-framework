@@ -1,0 +1,23 @@
+{
+    "name": "oaugustus/neton-silex-framework",
+    "description": "A framework platform for Silex Framework used at Neton Web Projects.",
+    "keywords": ["extjs","extdirect","silex","framework","neton"],
+    "homepage": "http://github.com/oaugustus/neton-silex-framework",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Otávio Fernandes",
+            "email": "otavio@netonsolucoes.com.br",
+            "homepage": "http://www.netonsolucoes.com.br"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "silex/silex": "1.*"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": {"Neton": "src/"}
+    }
+}
