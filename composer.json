@@ -14,7 +14,7 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "silex/silex": "1.*",
+        "silex/silex": "1.1",
         "doctrine/dbal": "2.2.*",
         "oaugustus/direct-silex-provider": "dev-master",
         "oaugustus/finder-silex-provider": "dev-master"

@@ -4,12 +4,11 @@ namespace Neton\Silex\Framework\Annotation;
 
 /**
  * @Annotation
- * @Target("CLASS")
  */
-class Controller
+class Before
 {
     /**
-     * @var array
+     * @var array<string>
      */
-    public $filters = array();
+    public $methods;
 }
