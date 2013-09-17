@@ -1,4 +1,5 @@
 .idea
 vendor/
 web/
-src/Test
+src/Neton/Test/
+src/Neton/Test/Controller/Foo.php

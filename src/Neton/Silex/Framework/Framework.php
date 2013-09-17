@@ -10,10 +10,10 @@
 
 namespace Neton\Silex\Framework;
 
-use Direct\DirectServiceProvider;
 use Neton\Silex\Framework\Annotation\After;
 use Neton\Silex\Framework\Annotation\Direct;
 use Neton\Silex\Framework\Annotation\Route;
+use Neton\Silex\Framework\Annotation\Service;
 use Symfony\Component\HttpFoundation\Request;
 use Neton\Silex\Framework\Annotation\Before;
 use Neton\Silex\Framework\Annotation\Controller;
@@ -40,7 +40,6 @@ class Framework
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $app['route_class'] = 'Direct\\Silex\\Route';
         $this->reader = new AnnotationReader();
     }
 
@@ -76,13 +75,84 @@ class Framework
 
             }
         }
+
+        /*echo "<pre>";
+        print_r($this->app);
+        echo "</pre>";*/
     }
 
     private function compile($annotation, $refClass, $bundle)
     {
-        if ($annotation instanceof Controller){
+        if ($annotation instanceof Controller) {
             $this->defineControllerService($refClass, $bundle, $annotation->filters);
         }
+
+        if ($annotation instanceof Service) {
+            $this->defineService($refClass, $annotation->definition);
+        }
+    }
+
+    /**
+     * Cria a definição de um serviço no Silex.
+     *
+     * @param \ReflectionClass $refClass
+     * @param $bundleNs
+     * @param $definition
+     */
+    private function defineService(\ReflectionClass $refClass, $definition)
+    {
+        $app = $this->app;
+        $serviceKey = strtolower(implode('.',explode('\\',$refClass->getName())));
+        $class = $refClass->getName();
+
+        switch ($definition) {
+            case 'clousure':
+                $app[$serviceKey] = function() use ($class, $app){
+                    return new $class($app);
+                };
+            break;
+            case 'shared':
+                $app[$serviceKey] = $app->share(function() use ($class, $app){
+                    return new $class($app);
+                });
+            break;
+            case 'protected':
+                $app[$serviceKey] = $app->protect(function() use ($class, $app){
+                    return new $class($app);
+                });
+        }
+
+        $this->defineParameters($refClass, $serviceKey);
+    }
+
+    /**
+     * Define os parâmetros registrados via anotação no silex.
+     *
+     * @param \ReflectionClass $refClass
+     * @param String $serviceKey
+     */
+    private function defineParameters($refClass, $serviceKey)
+    {
+        $properties = $refClass->getProperties();
+        $app = $this->app;
+        $class = $refClass->getName();
+
+        foreach ($properties as $property) {
+
+            $annotation = $this->reader->getPropertyAnnotation($property, 'Neton\Silex\Framework\Annotation\Parameter');
+
+            if (!empty($annotation)) {
+                $parameterKey = $serviceKey.".".$property->getName();
+
+                $app[$parameterKey] = function() use ($class, $property){
+
+                    $prop = $property->getName();
+
+                    return $class::$$prop;
+                };
+            }
+        }
+
     }
 
     /**
@@ -110,12 +180,6 @@ class Framework
         $this->mapRoutes($$controller, $serviceName, $reflection);
         $this->setControllerFilters($$controller, $serviceName,  $filters, $reflection);
 
-
-
-        /*echo "<pre>";
-        print_r($$controller);
-        echo "</pre>";*/
-        //echo $controllerPattern;
         $this->app->mount($controllerPattern, $$controller);
     }
 
@@ -168,8 +232,22 @@ class Framework
             return $app[$controllerService]->$method($request);
         };
 
+        $ctr = $controller->post($method, $callback)->direct($direct->form);
 
-        $controller->post($method, $callback)->direct($direct->form);
+        if (!empty($beforeFilters)) {
+
+            foreach ($beforeFilters->methods as $method) {
+                $this->addFilter($method, 'before', $ctr, $controllerService, $reflectionClass);
+            }
+        }
+
+        if (!empty($afterFilters)) {
+
+            foreach ($afterFilters->methods as $method) {
+                $this->addFilter($method, 'after', $ctr, $controllerService, $reflectionClass);
+            }
+        }
+
     }
 
     /**
