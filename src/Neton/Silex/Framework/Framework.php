@@ -165,7 +165,7 @@ class Framework
     private function defineControllerService(\ReflectionClass $reflection, $bundle, $filters)
     {
         $app = $this->app;
-        $controllerPattern = "/".strtolower($bundle)."_".$reflection->getShortName()."/";
+        $controllerPattern = "/".strtolower($bundle)."_/".strtolower($reflection->getShortName())."/";
         $controller = strtolower($reflection->getShortName());
         $serviceName = strtolower($bundle.".".$controller);
 
