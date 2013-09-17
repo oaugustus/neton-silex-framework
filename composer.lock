@@ -3,20 +3,20 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "50970a9b1a97b2e9202cb68a3d4b18f9",
+    "hash": "91cdd7214517092d7bc33148ff7fd246",
     "packages": [
         {
             "name": "doctrine/common",
-            "version": "2.2.3",
+            "version": "2.2.x-dev",
             "source": {
                 "type": "git",
-                "url": "https://github.com/doctrine/common",
-                "reference": "2.2.3"
+                "url": "https://github.com/doctrine/common.git",
+                "reference": "d14fd323c9d8346334b8bc077287613a7113d6ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/doctrine/common/zipball/2.2.3",
-                "reference": "2.2.3",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/d14fd323c9d8346334b8bc077287613a7113d6ef",
+                "reference": "d14fd323c9d8346334b8bc077287613a7113d6ef",
                 "shasum": ""
             },
             "require": {
@@ -67,65 +67,7 @@
                 "persistence",
                 "spl"
             ],
-            "time": "2012-08-29 01:04:14"
-        },
-        {
-            "name": "doctrine/dbal",
-            "version": "2.2.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/dbal.git",
-                "reference": "7331fdbf662a3c8f541100017e3a1db9e10507fe"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/7331fdbf662a3c8f541100017e3a1db9e10507fe",
-                "reference": "7331fdbf662a3c8f541100017e3a1db9e10507fe",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/common": ">=2.2.0,<=2.2.99",
-                "php": ">=5.3.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Doctrine\\DBAL": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL"
-            ],
-            "authors": [
-                {
-                    "name": "Jonathan Wage",
-                    "email": "jonwage@gmail.com",
-                    "homepage": "http://www.jwage.com/"
-                },
-                {
-                    "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com",
-                    "homepage": "http://www.instaclick.com"
-                },
-                {
-                    "name": "Roman Borschel",
-                    "email": "roman@code-factory.org"
-                },
-                {
-                    "name": "Benjamin Eberlei",
-                    "email": "kontakt@beberlei.de"
-                }
-            ],
-            "description": "Database Abstraction Layer",
-            "homepage": "http://www.doctrine-project.org",
-            "keywords": [
-                "database",
-                "dbal",
-                "persistence",
-                "queryobject"
-            ],
-            "time": "2012-11-25 18:06:51"
+            "time": "2012-08-29 08:04:14"
         },
         {
             "name": "oaugustus/direct-silex-provider",
@@ -170,52 +112,6 @@
                 "silex"
             ],
             "time": "2013-08-02 20:06:53"
-        },
-        {
-            "name": "oaugustus/finder-silex-provider",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/oaugustus/finder-silex-provider.git",
-                "reference": "e0bfdaec9ee327801337113679b56ed1afa9fd5f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/oaugustus/finder-silex-provider/zipball/e0bfdaec9ee327801337113679b56ed1afa9fd5f",
-                "reference": "e0bfdaec9ee327801337113679b56ed1afa9fd5f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3",
-                "silex/silex": "~1.0",
-                "symfony/finder": ">=2.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "SilexFinder": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Otávio Fernandes",
-                    "email": "otavio@netonsolucoes.com.br",
-                    "homepage": "http://www.netonsolucoes.com.br"
-                }
-            ],
-            "description": "A Finder service provider for Silex.",
-            "homepage": "https://github.com/oaugustus/finder-silex-provider",
-            "keywords": [
-                "directory",
-                "file",
-                "finder",
-                "silex"
-            ],
-            "time": "2013-06-15 04:57:17"
         },
         {
             "name": "pimple/pimple",
@@ -547,12 +443,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "329b059893fdcc9399962ca5881d988264123d23"
+                "reference": "0ffbce778188a57f61c79e1ca3e6c1142a6ca56b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/329b059893fdcc9399962ca5881d988264123d23",
-                "reference": "329b059893fdcc9399962ca5881d988264123d23",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/0ffbce778188a57f61c79e1ca3e6c1142a6ca56b",
+                "reference": "0ffbce778188a57f61c79e1ca3e6c1142a6ca56b",
                 "shasum": ""
             },
             "require": {
@@ -588,7 +484,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
-            "time": "2013-09-13 12:20:37"
+            "time": "2013-09-16 11:23:31"
         },
         {
             "name": "symfony/http-kernel",
@@ -597,12 +493,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpKernel.git",
-                "reference": "f42c09457e6cdebdc34bb1603178c8e69be1565a"
+                "reference": "674a6b021803888e7575537e8dd423007c6aa549"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/f42c09457e6cdebdc34bb1603178c8e69be1565a",
-                "reference": "f42c09457e6cdebdc34bb1603178c8e69be1565a",
+                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/674a6b021803888e7575537e8dd423007c6aa549",
+                "reference": "674a6b021803888e7575537e8dd423007c6aa549",
                 "shasum": ""
             },
             "require": {
@@ -659,7 +555,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "http://symfony.com",
-            "time": "2013-09-13 12:20:37"
+            "time": "2013-09-16 11:23:31"
         },
         {
             "name": "symfony/routing",
@@ -728,8 +624,7 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "oaugustus/direct-silex-provider": 20,
-        "oaugustus/finder-silex-provider": 20
+        "oaugustus/direct-silex-provider": 20
     },
     "platform": {
         "php": ">=5.3.3"

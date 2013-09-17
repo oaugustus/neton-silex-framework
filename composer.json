@@ -15,9 +15,9 @@
     "require": {
         "php": ">=5.3.3",
         "silex/silex": "1.1",
-        "doctrine/dbal": "2.2.*",
+        "doctrine/common": "2.2.*",
         "oaugustus/direct-silex-provider": "dev-master",
-        "oaugustus/finder-silex-provider": "dev-master"
+        "symfony/finder": ">=2.2"
     },
     "minimum-stability": "dev",
     "autoload": {
