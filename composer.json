@@ -17,6 +17,7 @@
         "silex/silex": "1.1",
         "doctrine/common": "2.2.*",
         "doctrine/dbal": "2.2.*",
+        "igorw/config-service-provider": "1.2.*@dev",
         "oaugustus/direct-silex-provider": "dev-master",
         "symfony/finder": ">=2.2"
     },

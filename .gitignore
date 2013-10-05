@@ -4,3 +4,4 @@ web/
 src/Neton/Test/
 src/Neton/Test/Controller/Foo.php
 src/Neton/Test/Controller/Bar.php
+app/

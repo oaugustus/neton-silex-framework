@@ -18,10 +18,12 @@ class AutoRequire
      * Inicializa a classe de auto inclusão.
      *
      * @param array $directories
+     * @param \Silex\Application $app
      */
-    public function __construct($directories)
+    public function __construct($directories, $app)
     {
         $this->requireDirs = $directories;
+        $this->app = $app;
     }
 
     /**
@@ -29,6 +31,8 @@ class AutoRequire
      */
     public function requires()
     {
+        $app = $this->app;
+
         if (!empty($this->requireDirs)){
             $finder = new Finder();
             $finder->in($this->requireDirs)->name('*.php');

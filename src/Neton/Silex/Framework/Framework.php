@@ -43,7 +43,7 @@ class Framework
         $this->checkParameters();
 
         $this->reader = new AnnotationReader();
-        $this->autoRequire = new AutoRequire($app['neton.framework.requires']);
+        $this->autoRequire = new AutoRequire($app['neton.framework.requires'], $app);
     }
 
     /**
