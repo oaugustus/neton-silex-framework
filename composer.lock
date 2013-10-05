@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "91cdd7214517092d7bc33148ff7fd246",
+    "hash": "b89952272ea9377a4d9d6f48eba9d43b",
     "packages": [
         {
             "name": "doctrine/common",
@@ -70,6 +70,64 @@
             "time": "2012-08-29 08:04:14"
         },
         {
+            "name": "doctrine/dbal",
+            "version": "2.2.0-RC3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/dbal.git",
+                "reference": "485ed6556520443b6ab024284e6992a84e64a40c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/485ed6556520443b6ab024284e6992a84e64a40c",
+                "reference": "485ed6556520443b6ab024284e6992a84e64a40c",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": "2.*",
+                "php": ">=5.3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\DBAL": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com",
+                    "homepage": "http://www.jwage.com/"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com",
+                    "homepage": "http://www.instaclick.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                }
+            ],
+            "description": "Database Abstraction Layer",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "database",
+                "dbal",
+                "persistence",
+                "queryobject"
+            ],
+            "time": "2012-01-22 16:53:18"
+        },
+        {
             "name": "oaugustus/direct-silex-provider",
             "version": "dev-master",
             "source": {
@@ -119,12 +177,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Pimple.git",
-                "reference": "dd112b96b5836f896b01d344c85de1ed7140c334"
+                "reference": "471c7d7c52ad6594e17b8ec33efdd1be592b5d83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Pimple/zipball/dd112b96b5836f896b01d344c85de1ed7140c334",
-                "reference": "dd112b96b5836f896b01d344c85de1ed7140c334",
+                "url": "https://api.github.com/repos/fabpot/Pimple/zipball/471c7d7c52ad6594e17b8ec33efdd1be592b5d83",
+                "reference": "471c7d7c52ad6594e17b8ec33efdd1be592b5d83",
                 "shasum": ""
             },
             "require": {
@@ -157,7 +215,7 @@
                 "container",
                 "dependency injection"
             ],
-            "time": "2013-08-29 06:29:11"
+            "time": "2013-09-19 04:53:08"
         },
         {
             "name": "psr/log",
@@ -287,12 +345,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Debug.git",
-                "reference": "af5033bc37aae356ab04b0f581795d60262fd77e"
+                "reference": "6857e0b8bbbf3b9b4a23796d99c7b3efa76a70d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Debug/zipball/af5033bc37aae356ab04b0f581795d60262fd77e",
-                "reference": "af5033bc37aae356ab04b0f581795d60262fd77e",
+                "url": "https://api.github.com/repos/symfony/Debug/zipball/6857e0b8bbbf3b9b4a23796d99c7b3efa76a70d2",
+                "reference": "6857e0b8bbbf3b9b4a23796d99c7b3efa76a70d2",
                 "shasum": ""
             },
             "require": {
@@ -333,7 +391,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "http://symfony.com",
-            "time": "2013-09-13 12:20:47"
+            "time": "2013-09-19 09:47:34"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -342,12 +400,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "41c9826457c65fa3cf746f214985b7ca9cba42f8"
+                "reference": "7fc72a7a346a1887d3968cc1ce5642a15cd182e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/41c9826457c65fa3cf746f214985b7ca9cba42f8",
-                "reference": "41c9826457c65fa3cf746f214985b7ca9cba42f8",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/7fc72a7a346a1887d3968cc1ce5642a15cd182e9",
+                "reference": "7fc72a7a346a1887d3968cc1ce5642a15cd182e9",
                 "shasum": ""
             },
             "require": {
@@ -387,7 +445,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
-            "time": "2013-07-21 12:12:18"
+            "time": "2013-09-19 09:45:20"
         },
         {
             "name": "symfony/finder",
@@ -396,12 +454,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "ad276bcd7378de41257550c42c4bc0c059783ef3"
+                "reference": "e2ce3164ab58b4d54612e630571f158035ee8603"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/ad276bcd7378de41257550c42c4bc0c059783ef3",
-                "reference": "ad276bcd7378de41257550c42c4bc0c059783ef3",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/e2ce3164ab58b4d54612e630571f158035ee8603",
+                "reference": "e2ce3164ab58b4d54612e630571f158035ee8603",
                 "shasum": ""
             },
             "require": {
@@ -434,7 +492,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "http://symfony.com",
-            "time": "2013-08-24 06:54:37"
+            "time": "2013-09-19 09:47:34"
         },
         {
             "name": "symfony/http-foundation",
@@ -443,12 +501,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "0ffbce778188a57f61c79e1ca3e6c1142a6ca56b"
+                "reference": "59e712338cd05463ebcb8da6422a01b1291871e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/0ffbce778188a57f61c79e1ca3e6c1142a6ca56b",
-                "reference": "0ffbce778188a57f61c79e1ca3e6c1142a6ca56b",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/59e712338cd05463ebcb8da6422a01b1291871e3",
+                "reference": "59e712338cd05463ebcb8da6422a01b1291871e3",
                 "shasum": ""
             },
             "require": {
@@ -484,7 +542,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
-            "time": "2013-09-16 11:23:31"
+            "time": "2013-09-29 19:41:41"
         },
         {
             "name": "symfony/http-kernel",
@@ -493,12 +551,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpKernel.git",
-                "reference": "674a6b021803888e7575537e8dd423007c6aa549"
+                "reference": "4ccb97ee5a5e2b761375fd33101198dd2a85f5df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/674a6b021803888e7575537e8dd423007c6aa549",
-                "reference": "674a6b021803888e7575537e8dd423007c6aa549",
+                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/4ccb97ee5a5e2b761375fd33101198dd2a85f5df",
+                "reference": "4ccb97ee5a5e2b761375fd33101198dd2a85f5df",
                 "shasum": ""
             },
             "require": {
@@ -555,7 +613,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "http://symfony.com",
-            "time": "2013-09-16 11:23:31"
+            "time": "2013-09-30 09:54:26"
         },
         {
             "name": "symfony/routing",
@@ -564,12 +622,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Routing.git",
-                "reference": "3085975262bc36dc89929a936056dc6e5cb8a100"
+                "reference": "7d41463094752e87a0fae60316d236abecb8a034"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Routing/zipball/3085975262bc36dc89929a936056dc6e5cb8a100",
-                "reference": "3085975262bc36dc89929a936056dc6e5cb8a100",
+                "url": "https://api.github.com/repos/symfony/Routing/zipball/7d41463094752e87a0fae60316d236abecb8a034",
+                "reference": "7d41463094752e87a0fae60316d236abecb8a034",
                 "shasum": ""
             },
             "require": {
@@ -613,7 +671,7 @@
             ],
             "description": "Symfony Routing Component",
             "homepage": "http://symfony.com",
-            "time": "2013-09-06 18:20:34"
+            "time": "2013-09-29 19:41:41"
         }
     ],
     "packages-dev": [
