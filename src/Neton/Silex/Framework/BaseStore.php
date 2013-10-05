@@ -66,9 +66,56 @@ class BaseStore extends BaseService
 
         $qb->select('t.*')
            ->from($this->table, 't')
-           ->where($this->id." = '".$id."'");
+           ->where($this->id." = :id");
 
-        return $this->db->fetchAssoc($qb->getSQL());
+        return $this->db->fetchAssoc($qb->getSQL(), array(
+            'id' => $id
+        ));
+    }
+
+    /**
+     * Localiza o primeiro registro que casa com um conjunto de filtros.
+     *
+     * @param Array $filters
+     *
+     * @return Array
+     */
+    public function findOneBy($filters)
+    {
+        $qb = $this->qb;
+
+        $qb->select('t.*')
+           ->from($this->table, 't')
+           ->where('1 = 1');
+
+        foreach ($filters as $key => $filter) {
+            $qb->andWhere('t.'.$key.' = :'.$key);
+        }
+
+        return $this->db->fetchAssoc($qb->getSQL(), $filters);
+    }
+
+    /**
+     * Localiza os registros que casam com um conjunto de filtros.
+     *
+     * @param Array $filters
+     * @param Array $opt
+     *
+     * @return Array
+     */
+    public function findBy($filters, $opt = array())
+    {
+        $qb = $this->qb;
+
+        $qb->select('t.*')
+            ->from($this->table, 't')
+            ->where('1 = 1');
+
+        foreach ($filters as $key => $filter) {
+            $qb->andWhere('t.'.$key.' = :'.$key);
+        }
+
+        return $this->paginate($qb, $opt, $filters);
     }
 
     /**
@@ -133,10 +180,11 @@ class BaseStore extends BaseService
      *
      * @param QueryBuilder $qb
      * @param Array $opt
+     * @param Array $filters
      *
      * @return Array
      */
-    protected function paginate(QueryBuilder $qb, $opt)
+    protected function paginate(QueryBuilder $qb, $opt, $filters = array())
     {
         $db = $this->db;
 
@@ -145,7 +193,7 @@ class BaseStore extends BaseService
         $qb->setFirstResult(isset($opt['start']) ? $opt['start'] : 0)->
             setMaxResults(isset($opt['limit']) ? $opt['limit'] : 200);
 
-        $result = $db->fetchAll($qb->getSQL());
+        $result = $db->fetchAll($qb->getSQL(), $filters);
 
         return array(
             'total' => $total,
