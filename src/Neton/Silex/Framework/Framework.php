@@ -10,6 +10,7 @@
 
 namespace Neton\Silex\Framework;
 
+use Doctrine\Common\Annotations\Annotation;
 use Neton\Silex\Framework\Annotation\After;
 use Neton\Silex\Framework\Annotation\Direct;
 use Neton\Silex\Framework\Annotation\Route;
@@ -71,6 +72,8 @@ class Framework
         $this->reader = new AnnotationReader();
         $this->autoRequire = new AutoRequire($app['neton.framework.requires'], $app);
         $this->configLoader = new ConfigLoader($app);
+        AnnotationRegistry::registerAutoloadNamespace("Neton\Silex\Framework\Annotation", __DIR__."/../../../");
+
     }
 
     /**
@@ -83,34 +86,39 @@ class Framework
         $this->configLoader->loadConfigs();
         $this->autoRequire->requires();
 
-        AnnotationRegistry::registerAutoloadNamespace("Neton\Silex\Framework\Annotation", __DIR__."/../../../");
+        foreach ($app['neton.framework.bundles'] as $bundle => $namespace) {
 
-        foreach ($app['neton.framework.bundles'] as $bundle => $namespace){
             $bundleDir = str_replace('\\', DIRECTORY_SEPARATOR, $namespace);
             $dir = $app['neton.framework.src_dir'].DIRECTORY_SEPARATOR.$bundleDir;
 
             $finder = new Finder();
 
-            foreach ($finder->in($dir)->files() as $file){
+            foreach ($finder->in($dir)->files() as $file) {
+
                 $className = str_replace(".".$file->getExtension(), '', $file->getRelativePathname());
                 $fullClass = $namespace."\\".str_replace("/","\\",$className);
 
-                if (class_exists($fullClass)){
+                if (class_exists($fullClass)) {
+
                     $reflClass = new \ReflectionClass($fullClass);
                     $classAnnotations = $this->reader->getClassAnnotations($reflClass);
 
-                    foreach ($classAnnotations as $annot){
+                    foreach ($classAnnotations as $annot) {
                         $this->compile($annot, $reflClass, $bundle);
                     }
                 }
 
             }
         }
-        /*echo "<pre>";
-        print_r($this->app);
-        echo "</pre>";*/
     }
 
+    /**
+     * Realiza o mapeamento de serviços do framework.
+     *
+     * @param Annotation $annotation
+     * @param \ReflectionClass $refClass
+     * @param String $bundle
+     */
     private function compile($annotation, $refClass, $bundle)
     {
         if ($annotation instanceof Controller) {
@@ -195,11 +203,12 @@ class Framework
     private function defineControllerService(\ReflectionClass $reflection, $bundle, $filters)
     {
         $app = $this->app;
+
         $controllerPattern = "/".strtolower($bundle)."_/".strtolower($reflection->getShortName())."/";
         $controller = strtolower($reflection->getShortName());
         $serviceName = strtolower($bundle.".".$controller);
 
-        $app[$serviceName] = $this->app->share(function() use ($app, $reflection){
+        $app[$serviceName] = $this->app->share(function() use ($app, $reflection) {
             $controllerClass = $reflection->getName();
 
             return new $controllerClass($app);
@@ -208,7 +217,8 @@ class Framework
         $$controller = $this->app['controllers_factory'];
 
         $this->mapRoutes($$controller, $serviceName, $reflection);
-        $this->setControllerFilters($$controller, $serviceName,  $filters, $reflection);
+        $this->setControllerFilters($$controller, $serviceName,  $filters);
+
 
         $this->app->mount($controllerPattern, $$controller);
     }
@@ -233,7 +243,7 @@ class Framework
             $afterFilters = $this->reader->getMethodAnnotation($reflectionMethod, 'Neton\Silex\Framework\Annotation\After');
 
             if ($route) {
-                $this->mapBasicRoute($route, $controllerService, $reflectionClass, $reflectionMethod, $beforeFilters, $afterFilters);
+                $this->mapBasicRoute($route, $controller, $controllerService, $reflectionClass, $reflectionMethod, $beforeFilters, $afterFilters);
             }
 
             if ($direct) {
@@ -284,6 +294,7 @@ class Framework
      * Mapeia uma rota convencional em um controlador.
      *
      * @param Route $route
+     * @param \Silex\ControllerCollection $controller
      * @param String $controllerService
      * @param \ReflectionClass $reflectionClass
      * @param \ReflectionMethod $reflectionMethod
@@ -293,45 +304,33 @@ class Framework
      * @throws FrameworkException
      * @throws FrameworkException
      */
-    private function mapBasicRoute($route, $controllerService, $reflectionClass, $reflectionMethod, $beforeFilters, $afterFilters)
+    private function mapBasicRoute($route, $controller, $controllerService, $reflectionClass, $reflectionMethod, $beforeFilters, $afterFilters)
     {
-        $app = $this->app;
+        if ($route->method != null || !empty($route->methods)) {
 
-        if ($route->pattern != null) {
+            $routeMethods = $route->method == null ? $route->methods : array($route->method);
+            $ctr = $controller->match(strtolower($reflectionMethod->getName()), $controllerService.":".$reflectionMethod->getName())->method(implode('|',$routeMethods));
 
-            if ($route->method != null || !empty($route->methods)) {
+            if (!empty($beforeFilters)) {
 
-                $routeMethods = $route->method == null ? $route->methods : array($route->method);
-                $ctr = $app->match($route->pattern, $controllerService.":".$reflectionMethod->getName())->method(implode('|',$routeMethods));
-
-                if (!empty($beforeFilters)) {
-
-                    foreach ($beforeFilters->methods as $method) {
-                        $this->addFilter($method, 'before', $ctr, $controllerService, $reflectionClass);
-                    }
+                foreach ($beforeFilters->methods as $method) {
+                    $this->addFilter($method, 'before', $ctr, $controllerService, $reflectionClass);
                 }
+            }
 
-                if (!empty($afterFilters)) {
+            if (!empty($afterFilters)) {
 
-                    foreach ($afterFilters->methods as $method) {
-                        $this->addFilter($method, 'after', $ctr, $controllerService, $reflectionClass);
-                    }
+                foreach ($afterFilters->methods as $method) {
+                    $this->addFilter($method, 'after', $ctr, $controllerService, $reflectionClass);
                 }
-
-            } else {
-
-                throw FrameworkException::routeMethodNotDefinedError(sprintf(
-                    "O metodo '%s' do controlador '%s' foi anotado como rota mas nao possui um metodo (post,get,etc) definido",
-                    $reflectionMethod->getName(), $reflectionClass->getName()
-                ));
             }
 
         } else {
-
-            throw FrameworkException::routePatternNotDefinedError(sprintf(
-                "O metodo '%s' do controlador '%s' foi anotado como rota mas nao tem um pattern definido",
+            throw FrameworkException::routeMethodNotDefinedError(sprintf(
+                "O metodo '%s' do controlador '%s' foi anotado como rota mas nao possui um metodo (post,get,etc) definido",
                 $reflectionMethod->getName(), $reflectionClass->getName()
             ));
+
         }
 
     }
@@ -344,19 +343,21 @@ class Framework
      * @param array $filters
      * @param \ReflectionClass $reflectionClass
      */
-    private function setControllerFilters($controller, $controllerService, $filters, $reflectionClass)
+    private function setControllerFilters($controller, $controllerService, $filters)
     {
 
-        foreach ($filters as $filter){
-            if ($filter instanceof Before){
-                foreach ($filter->methods as $method){
-                    $this->addFilter($method, 'before', $controller, $controllerService, $reflectionClass);
+        foreach ($filters as $filter) {
+
+            if ($filter instanceof Before) {
+                foreach ($filter->methods as $method) {
+
+                    $this->addFilter($method, 'before', $controller, $controllerService);
                 }
             }
 
-            if ($filter instanceof After){
-                foreach ($filter->methods as $method){
-                    $this->addFilter($method, 'after', $controller, $controllerService, $reflectionClass);
+            if ($filter instanceof After) {
+                foreach ($filter->methods as $method) {
+                    $this->addFilter($method, 'after', $controller, $controllerService);
                 }
             }
         }
@@ -369,39 +370,70 @@ class Framework
      * @param String $type
      * @param \Silex\Controller $controller
      * @param String $controllerService
-     * @param \ReflectionClass $reflectionClass
      *
      * @throws FrameworkException
      * @throws FrameworkException
      */
-    private function addFilter($method, $type, $controller, $controllerService, $reflectionClass)
+    private function addFilter($method, $type, $controller, $controllerService)
     {
         $app = $this->app;
 
-        if ($reflectionClass->hasMethod($method)){
-            $reflectionMethod = new \ReflectionMethod($reflectionClass->getName(),$method);
-            $annotations = $this->reader->getMethodAnnotations($reflectionMethod);
 
-            if (empty($annotations)){
+        if ($type == 'before') {
+            $callback = function(Request $request) use ($controllerService, $app, $method){
+                $service = $this->locateService($controllerService, $method);
 
-                if ($type == 'before'){
+                return $app[$service['service_class']]->$service['service_method']($request);
+            };
 
-                    $callback = function(Request $request) use ($controllerService, $app, $method){
-                        return $app[$controllerService]->$method($request);
-                    };
-                } else {
-                    $callback = function(Request $request, Response $response) use ($controllerService, $app, $method){
-                        return $app[$controllerService]->$method($request, $response);
-                    };
-                }
-
-                $controller->$type($callback);
-            } else {
-                throw FrameworkException::filterHasAnnotationError(sprintf("O metodo '%s' do controlador '%s' esta definido como um filtro '%s' mas possui anotacoes.",$method, $reflectionClass->getName(), $type));
-            }
         } else {
-            throw FrameworkException::controllerMethodNotDefinedError(sprintf("O metodo '%s' nao esta definido no controlador '%s'",$method, $reflectionClass->getName()));
+            $callback = function(Request $request, Response $response) use ($controllerService, $app, $method){
+                $service = $this->locateService($controllerService, $method);
+
+                return $app[$service['service_class']]->$service['service_method']($request, $response);
+            };
         }
+
+        $controller->$type($callback);
+
+    }
+
+    /**
+     * Localiza o serviço e o método chamado para execução de callback.
+     *
+     * @param String $controllerService
+     * @param String $method
+     *
+     * @return Array
+     */
+    private function locateService($controllerService, $method)
+    {
+        $app = $this->app;
+
+        if (strpos($method, ':') !== false){
+            $methodParts = explode(':', $method);
+
+            $controllerService = $methodParts[0];
+            $method = $methodParts[1];
+        }
+
+        $refClass = new \ReflectionClass(get_class($app[$controllerService]));
+
+        if (!$refClass->hasMethod($method)){
+            throw FrameworkException::controllerMethodNotDefinedError(sprintf("O metodo '%s' nao esta definido no controlador '%s'",$method, $refClass->getName()));
+        }
+
+        $refMethod = new \ReflectionMethod($refClass->getName(),$method);
+        $annotations = $this->reader->getMethodAnnotations($refMethod);
+
+        if (!empty($annotations)){
+            throw FrameworkException::filterHasAnnotationError(sprintf("O metodo '%s' do controlador '%s' esta definido como um filtro mas possui anotacoes.",$method, $refClass->getName()));
+        }
+
+        return array(
+            'service_class' => $controllerService,
+            'service_method' => $method
+        );
     }
 
     /**
