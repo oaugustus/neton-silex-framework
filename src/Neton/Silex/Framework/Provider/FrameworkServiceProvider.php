@@ -30,6 +30,7 @@ class FrameworkServiceProvider implements ServiceProviderInterface
 
         $app['neton.framework.bundles'] = array();
         $app['neton.framework.src_dir'] = null;
+        $app['neton.framework.requires'] = array();
 
         $app->register(new \Silex\Provider\ServiceControllerServiceProvider());
         $app->register(new DirectServiceProvider());

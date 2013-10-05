@@ -40,7 +40,10 @@ class Framework
     public function __construct(Application $app)
     {
         $this->app = $app;
+        $this->checkParameters();
+
         $this->reader = new AnnotationReader();
+        $this->autoRequire = new AutoRequire($app['neton.framework.requires']);
     }
 
     /**
@@ -49,8 +52,6 @@ class Framework
     public function initialize()
     {
         $app = $this->app;
-
-        $this->checkParameters();
 
         AnnotationRegistry::registerAutoloadNamespace("Neton\Silex\Framework\Annotation", __DIR__."/../../../");
 
@@ -76,6 +77,7 @@ class Framework
             }
         }
 
+        $this->autoRequire->requires();
         /*echo "<pre>";
         print_r($this->app);
         echo "</pre>";*/
