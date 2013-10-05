@@ -11,9 +11,11 @@
 namespace Neton\Silex\Framework\Provider;
 
 use Direct\DirectServiceProvider;
+use Igorw\Silex\ConfigServiceProvider;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Neton\Silex\Framework\Framework;
+use Silex\Provider\ServiceControllerServiceProvider;
 
 /**
  * Neton Framework Service Provider
@@ -30,11 +32,11 @@ class FrameworkServiceProvider implements ServiceProviderInterface
 
         $app['neton.framework.bundles'] = array();
         $app['neton.framework.src_dir'] = null;
+        $app['neton.framework.config_dir'] = null;
         $app['neton.framework.requires'] = array();
 
-        $app->register(new \Silex\Provider\ServiceControllerServiceProvider());
+        $app->register(new ServiceControllerServiceProvider());
         $app->register(new DirectServiceProvider());
-
     }
 
     public function boot(Application $app)

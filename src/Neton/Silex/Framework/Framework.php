@@ -30,7 +30,33 @@ use Symfony\Component\Finder\Finder;
  */
 class Framework
 {
+    /**
+     * Aplicação Silex.
+     *
+     * @var \Silex\Application
+     */
     protected  $app;
+
+    /**
+     * Leitor de anotações do framework.
+     *
+     * @var \Doctrine\Common\Annotations\AnnotationReader
+     */
+    protected $reader;
+
+    /**
+     * Objeto de auto requisição de arquivos de código fonte.
+     *
+     * @var AutoRequire
+     */
+    protected $autoRequire;
+
+    /**
+     * Objeto responsável por carregar as configurações da aplicação.
+     *
+     * @var ConfigLoader
+     */
+    protected $configLoader;
 
     /**
      * Cria uma nova instância do framework.
@@ -44,6 +70,7 @@ class Framework
 
         $this->reader = new AnnotationReader();
         $this->autoRequire = new AutoRequire($app['neton.framework.requires'], $app);
+        $this->configLoader = new ConfigLoader($app);
     }
 
     /**
@@ -52,6 +79,9 @@ class Framework
     public function initialize()
     {
         $app = $this->app;
+
+        $this->configLoader->loadConfigs();
+        $this->autoRequire->requires();
 
         AnnotationRegistry::registerAutoloadNamespace("Neton\Silex\Framework\Annotation", __DIR__."/../../../");
 
@@ -76,8 +106,6 @@ class Framework
 
             }
         }
-
-        $this->autoRequire->requires();
         /*echo "<pre>";
         print_r($this->app);
         echo "</pre>";*/
@@ -385,6 +413,10 @@ class Framework
     {
         if (!$this->app['neton.framework.src_dir']){
             throw FrameworkException::sourceDirNotFoundError("O diretorio dos arquivos fonte nao foi definido!");
+        }
+
+        if (!$this->app['neton.framework.config_dir']){
+            throw FrameworkException::configDirNotFoundError("O diretorio dos arquivos de configuracao nao foi definido!");
         }
 
         if (empty($this->app['neton.framework.bundles'])){

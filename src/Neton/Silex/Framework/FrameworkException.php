@@ -18,6 +18,18 @@ class FrameworkException extends \Exception
     }
 
     /**
+     * Cria uma nova FrameworkException descrevendo a falta de configuração do diretório de arquivos de configuração.
+     *
+     * @param string $message Mensagem da exceção
+     *
+     * @return FrameworkException
+     */
+    public static function configDirNotFoundError($message)
+    {
+        return new self('[Config Directory Not Found Error] ' . $message);
+    }
+
+    /**
      * Cria uma nova FrameworkException descrevendo que os bundles da aplicação não foram definidos.
      *
      * @param string $message Mensagem de exceção
