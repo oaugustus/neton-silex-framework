@@ -11,7 +11,6 @@
 namespace Neton\Silex\Framework\Provider;
 
 use Direct\DirectServiceProvider;
-use Igorw\Silex\ConfigServiceProvider;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Neton\Silex\Framework\Framework;
