@@ -19,6 +19,7 @@
         "doctrine/dbal": "2.2.*",
         "igorw/config-service-provider": "1.2.*@dev",
         "oaugustus/direct-silex-provider": "dev-master",
+        "symfony/twig-bridge": "~2.2",
         "symfony/finder": ">=2.2"
     },
     "minimum-stability": "dev",

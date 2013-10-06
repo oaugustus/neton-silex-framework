@@ -306,10 +306,27 @@ class Framework
      */
     private function mapBasicRoute($route, $controller, $controllerService, $reflectionClass, $reflectionMethod, $beforeFilters, $afterFilters)
     {
+        $app = $this->app;
+
         if ($route->method != null || !empty($route->methods)) {
 
             $routeMethods = $route->method == null ? $route->methods : array($route->method);
-            $ctr = $controller->match(strtolower($reflectionMethod->getName()), $controllerService.":".$reflectionMethod->getName())->method(implode('|',$routeMethods));
+
+            if ($route->pattern){
+                if ($route->template){
+                    $ctr = $app->match($route->pattern, function(Request $request) use ($app, $controllerService, $reflectionMethod, $route){
+                        $method = $reflectionMethod->getName();
+                        $params = (array)$app[$controllerService]->$method($request);
+
+                        return $app['twig']->render($route->template, $params);
+                    })->method(implode('|',$routeMethods));
+                } else {
+                    $ctr = $app->match($route->pattern, $controllerService.":".$reflectionMethod->getName())->method(implode('|',$routeMethods));
+                }
+
+            } else {
+                $ctr = $controller->match(strtolower($reflectionMethod->getName()), $controllerService.":".$reflectionMethod->getName())->method(implode('|',$routeMethods));
+            }
 
             if (!empty($beforeFilters)) {
 

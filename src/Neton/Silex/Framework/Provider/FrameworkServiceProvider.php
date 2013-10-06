@@ -12,6 +12,7 @@ namespace Neton\Silex\Framework\Provider;
 
 use Direct\DirectServiceProvider;
 use Silex\Application;
+use Silex\Provider\TwigServiceProvider;
 use Silex\ServiceProviderInterface;
 use Neton\Silex\Framework\Framework;
 use Silex\Provider\ServiceControllerServiceProvider;
@@ -36,6 +37,7 @@ class FrameworkServiceProvider implements ServiceProviderInterface
 
         $app->register(new ServiceControllerServiceProvider());
         $app->register(new DirectServiceProvider());
+        $app->register(new TwigServiceProvider());
     }
 
     public function boot(Application $app)
