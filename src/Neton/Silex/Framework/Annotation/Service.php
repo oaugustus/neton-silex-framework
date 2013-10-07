@@ -14,5 +14,5 @@ class Service
     /**
      * @var string
      */
-    public $definition = 'clousure';
+    public $definition = 'shared';
 }
