@@ -21,6 +21,11 @@ class Route
     /**
      * @var string
      */
+    public $name = null;
+
+    /**
+     * @var string
+     */
     public $method = null;
 
     /**

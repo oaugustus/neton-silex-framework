@@ -14,6 +14,7 @@ use Direct\DirectServiceProvider;
 use Silex\Application;
 use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\TwigServiceProvider;
+use Silex\Provider\UrlGeneratorServiceProvider;
 use Silex\ServiceProviderInterface;
 use Neton\Silex\Framework\Framework;
 use Silex\Provider\ServiceControllerServiceProvider;
@@ -36,10 +37,21 @@ class FrameworkServiceProvider implements ServiceProviderInterface
         $app['neton.framework.config_dir'] = null;
         $app['neton.framework.requires'] = array();
 
+        $this->registerRequiredProviders($app);
+    }
+
+    /**
+     * Registra os provedores de serviço necessários ao funcionamento do framework.
+     *
+     * @param Application $app
+     */
+    private function registerRequiredProviders(Application $app)
+    {
         $app->register(new ServiceControllerServiceProvider());
         $app->register(new DirectServiceProvider());
         $app->register(new TwigServiceProvider());
         $app->register(new SessionServiceProvider());
+        $app->register(new UrlGeneratorServiceProvider());
     }
 
     public function boot(Application $app)

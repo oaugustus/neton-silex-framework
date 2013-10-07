@@ -328,6 +328,10 @@ class Framework
                 $ctr = $controller->match(strtolower($reflectionMethod->getName()), $controllerService.":".$reflectionMethod->getName())->method(implode('|',$routeMethods));
             }
 
+            if ($route->name != null){
+                $ctr->bind($route->name);
+            }
+
             if (!empty($beforeFilters)) {
 
                 foreach ($beforeFilters->methods as $method) {
