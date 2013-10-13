@@ -188,7 +188,7 @@ class BaseStore extends BaseService
     {
         $db = $this->db;
 
-        $total = count($db->fetchAll($qb->getSQL()));
+        $total = count($db->fetchAll($qb->getSQL(), $filters));
 
         $qb->setFirstResult(isset($opt['start']) ? $opt['start'] : 0)->
             setMaxResults(isset($opt['limit']) ? $opt['limit'] : 200);
