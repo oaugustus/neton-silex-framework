@@ -260,9 +260,9 @@ class BaseStore extends BaseService
                     $filterType = $filter->type;
                 } else {
                     $field = $filter['field'];
-                    $value = $filter['data']['value'];
-                    $compare = isset($filter['data']['comparison']) ? $filter['data']['comparison'] : null;
-                    $filterType = $filter['data']['type'];
+                    $value = $filter['value'];
+                    $compare = isset($filter['comparison']) ? $filter['comparison'] : null;
+                    $filterType = $filter['type'];
                 }
 
                 switch($filterType){
